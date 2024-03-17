@@ -4,21 +4,14 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee webapp_4_0.xsd"
          version="4.0">
 
-    <session-config>
-        <session-timeout>30</session-timeout>
-        <manager class="org.eclipse.jetty.servlet.SessionHandler">
-            <storeDir>D:\Институт</storeDir>
-        </manager>
-    </session-config>
+
 
     <session-config>
-        <session-timeout>30</session-timeout>
-        <cookie-config>
-            <max-age>3600</max-age>
-        </cookie-config>
-        <tracking-mode>COOKIE</tracking-mode>
+        <session-timeout>3000</session-timeout>
+        <manager className="org.apache.catalina.session.PersistentManager">
+            <storeDir>D:\Институт\Учеба\Программирование\lab3 — копия\web.xml</storeDir>
+        </manager>
     </session-config>
-    <distributable/>
 
     <servlet>
         <servlet-name>first-servlet</servlet-name>

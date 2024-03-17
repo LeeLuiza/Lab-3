@@ -1,31 +1,40 @@
 package org.example;
 
+import Model.AccountUser;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 import java.io.*;
 import java.io.IOException;
 
 
-@WebServlet(urlPatterns = {"/cool-servlet", "/my-cool-servlet/*"})
+@WebServlet(urlPatterns = {"/cool-servlet", "/my-cool-servlet/*", "/"})
 public class App extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path = request.getParameter("path");
-        if (request.getParameter("path") == null) {
-            path = "D:\\Folder";
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
+        AccountUser user = AccountService.getUserByLogin(login);
+        if(user == null || !user.getPassword().equals(password)){
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().println("Неправильный логин или пароль.");
+            return;
         }
-        request.setAttribute("path", path);
 
-        File directory = new File(path); //папки
-        File[] folder = directory.listFiles(File::isDirectory);
-        request.setAttribute("folder", folder);
+        request.getSession().setAttribute("login", login);
+        request.getSession().setAttribute("password", password);
 
-        File[] files = directory.listFiles(File::isFile); //файлы
-        request.setAttribute("files", files);
-
-        request.getRequestDispatcher("files.jsp").forward(request, response);
+        String url = request.getRequestURL().toString();
+        response.sendRedirect(url.substring(0, url.lastIndexOf('/')) + "/files");
     }
 }

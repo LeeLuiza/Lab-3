@@ -53,7 +53,7 @@
              <th>Последнее изменение</th>
              </tr>
                 <%
-                    File[] folders = (File[]) request.getAttribute("folder"); // папки
+                    File[] folders = (File[]) request.getSession().getAttribute("folder"); // папки
                     for (File item : folders) {
                 %>
              <tr>
@@ -64,7 +64,7 @@
         <tr>
 
         <%
-            File[] files = (File[]) request.getAttribute("files"); // файлы
+            File[] files = (File[]) request.getSession().getAttribute("files"); // файлы
             for (File item : files) {
         %>
         <tr>

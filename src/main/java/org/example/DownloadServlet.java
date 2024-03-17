@@ -16,12 +16,12 @@ public class DownloadServlet extends HttpServlet {
         String filePath = request.getParameter("path");
         File file = new File(filePath);
 
-        response.setHeader("Content-Disposition", "attachment; filename=" + file.getName() + "");
+        response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
 
         try (FileInputStream stream = new FileInputStream(file)) {
             int data;
             while ((data = stream.read()) != -1) {
-                response.getOutputStream().write(data);
+                response.getOutputStream().write(data); //выходной поток
             }
         }
     }
